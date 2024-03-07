@@ -1,4 +1,5 @@
-import {MinMax} from "./min.max";
+import { MinMax } from "./min.max";
+import { mathClamp } from "./math.clamp";
 
 export class Vector2 {
     private _x: number;
@@ -7,10 +8,6 @@ export class Vector2 {
     constructor(x: number, y: number) {
         this._x = x;
         this._y = y;
-    }
-
-    private static clamp(value: number, min: number, max: number): number {
-        return Math.max(min, Math.min(max, value));
     }
 
     public static lerp(from: number, to: number, t: number): number {
@@ -29,12 +26,12 @@ export class Vector2 {
 
     public clamp(rangeA: MinMax, rangeB?: MinMax): Vector2 {
         if (rangeB) {
-            this._x = Vector2.clamp(this._x, rangeA.min, rangeA.max);
-            this._y = Vector2.clamp(this._y, rangeB!.min, rangeB!.max);
+            this._x = mathClamp(this._x, rangeA.min, rangeA.max);
+            this._y = mathClamp(this._y, rangeB!.min, rangeB!.max);
         } else {
             const { min, max} = rangeA;
-            this._x = Vector2.clamp(this._x, min, max);
-            this._y = Vector2.clamp(this._y, min, max);
+            this._x = mathClamp(this._x, min, max);
+            this._y = mathClamp(this._y, min, max);
         }
 
         return this;
