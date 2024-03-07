@@ -1,9 +1,9 @@
 import { onDocReady } from "./misc/on.doc.ready";
 import { HerdsmanApp } from "./herdsman";
-import { HerdsmanAssets } from "./herdsman/herdsman.assets";
+import { HerdsmanAssets } from "./herdsman/core/herdsman.assets";
 import { Vector2 } from "./math/vector.2";
 import { MinMax } from "./math/min.max";
-import {AnimalsManagerInitConfig, CollectAreaInitConfig, PlayerInitConfig} from "./herdsman/herdsman.interfaces";
+import {AnimalsManagerInitConfig, CollectAreaInitConfig, PlayerInitConfig} from "./herdsman/core/lib";
 import * as PIXI from "pixi.js";
 
 import WebFont from "webfontloader";

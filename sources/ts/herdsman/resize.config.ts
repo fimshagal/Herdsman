@@ -1,5 +1,5 @@
 import { Vector2 } from "../math/vector.2";
-import { IResizeConfig } from "./herdsman.interfaces";
+import { IResizeConfig } from "./core/lib";
 
 export const resizeConfig: IResizeConfig = {
     collectedAnimalsCounter: new Vector2(335, -350),

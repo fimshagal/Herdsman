@@ -36,3 +36,13 @@ pnpm install
 pnpm start
 ```
 
+Then enjoy ;)
+
+## About playthrough
+
+Click with your mouse on a group of cute entities to collect them.
+After getting five entities player should bring them into 
+*hungry cat demon area ^_^* to earn some score points
+
+## For devs
+

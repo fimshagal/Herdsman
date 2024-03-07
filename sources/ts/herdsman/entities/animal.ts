@@ -1,9 +1,9 @@
 import { Entity } from "./entity";
 import { Vector2 } from "../../math/vector.2";
-import { AnimalInitConfig } from "../herdsman.interfaces";
+import { AnimalInitConfig } from "../core/lib";
 import { Player } from "./player";
 import { Nullable } from "../../misc/nullable";
-import { CollectArea } from "../collect.area";
+import { CollectArea } from "../collect.area/collect.area";
 import * as TWEEN from '@tweenjs/tween.js';
 import { delay } from "../../misc/delay";
 import { MinMax } from "../../math/min.max";

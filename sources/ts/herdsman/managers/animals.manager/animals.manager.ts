@@ -1,4 +1,5 @@
-import { AnimalsManagerInitConfig, EntityInitConfig } from "../../herdsman.interfaces";
+import { AnimalsManagerInitConfig } from "./lib";
+import {EntityInitConfig} from "../../entities/lib";
 import { Animal } from "../../entities/animal";
 import { MinMax } from "../../../math/min.max";
 import { Vector2 } from "../../../math/vector.2";

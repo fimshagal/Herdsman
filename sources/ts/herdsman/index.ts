@@ -1,1 +1,1 @@
-export * from './herdsman.app';
+export * from './core/herdsman.app';

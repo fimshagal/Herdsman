@@ -1,15 +1,16 @@
-import { CollectAreaInitConfig } from "./herdsman.interfaces";
+import { CollectAreaInitConfig } from "./lib";
 import * as PIXI from "pixi.js";
-import {Nullable} from "../misc/nullable";
-import {Animal} from "./entities/animal";
-import {Vector2} from "../math/vector.2";
-import {AnimalsManager} from "./managers/animal/animals.manager";
-import {HerdsmanStats} from "./herdsman.stats";
+import { Nullable } from "../../misc/nullable";
+import { Animal } from "../entities/animal";
+import { Vector2 } from "../../math/vector.2";
+import { AnimalsManager } from "../managers/animals.manager/animals.manager";
+import { StatsManager } from "../managers/stats.manager/stats.manager";
 
 export class CollectArea {
     private _view: Nullable<PIXI.Sprite> = null;
     private _position: Vector2 = Vector2.zero;
     private _catchDistance: number = 0;
+
     public init(config: CollectAreaInitConfig): void {
         this._view = new PIXI.Sprite(config.texture);
         this._view.anchor.set(0.5, 0.5);
@@ -42,7 +43,7 @@ export class CollectArea {
 
         animalsInRadius.forEach(async (animal: Animal) => {
             await animal.collect(this);
-            HerdsmanStats.addAnimals(1);
+            StatsManager.addAnimals(1);
         });
     }
 

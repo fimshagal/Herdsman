@@ -1,15 +1,15 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEN from "@tweenjs/tween.js";
-import { HerdsmanAppConfig } from "./herdsman.interfaces";
+import { HerdsmanAppConfig } from "./lib";
 import {ICanvas} from "pixi.js";
-import { Vector2 } from "../math/vector.2";
-import {Player} from "./entities/player";
-import {AnimalsManager} from "./managers/animal/animals.manager";
-import {HerdsmanStats} from "./herdsman.stats";
-import {resizeConfig} from "./resize.config";
+import { Vector2 } from "../../math/vector.2";
+import {Player} from "../entities/player";
+import {AnimalsManager} from "../managers/animals.manager/animals.manager";
+import {StatsManager} from "../managers/stats.manager/stats.manager";
+import {resizeConfig} from "../resize.config";
 import {HerdsmanAssets} from "./herdsman.assets";
-import {CollectArea} from "./collect.area";
-import {Nullable} from "../misc/nullable";
+import {CollectArea} from "../collect.area/collect.area";
+import {Nullable} from "../../misc/nullable";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -23,7 +23,7 @@ export class HerdsmanApp {
     private _player: Player = new Player();
     private _collectArea: CollectArea = new CollectArea();
     private _animalsManager: AnimalsManager = AnimalsManager.getSingle();
-    private _statsManager: HerdsmanStats = HerdsmanStats.getSingle();
+    private _statsManager: StatsManager = StatsManager.getSingle();
 
     private _collectedAnimalsCounter: Nullable<PIXI.Text> = null;
 

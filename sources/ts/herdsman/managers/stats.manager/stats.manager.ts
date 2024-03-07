@@ -1,7 +1,8 @@
 import { Signal } from "signal-ts";
-import {Vector2} from "../math/vector.2";
-export class HerdsmanStats {
-    private static _singleInstance: HerdsmanStats;
+import { Vector2 } from "../../../math/vector.2";
+
+export class StatsManager {
+    private static _singleInstance: StatsManager;
 
     private _collectedAnimals = 0;
     private _playerPosition: Vector2 = Vector2.zero;
@@ -9,26 +10,26 @@ export class HerdsmanStats {
     public onUpdateCollectedAnimals: Signal<number> = new Signal();
 
     constructor() {
-        if (HerdsmanStats._singleInstance) {
-            throw Error("HerdsmanStats can't be initialised twice");
+        if (StatsManager._singleInstance) {
+            throw Error("StatsManager can't be initialised twice");
         }
     }
 
-    public static getSingle(): HerdsmanStats  {
-        if (!HerdsmanStats._singleInstance) {
-            HerdsmanStats._singleInstance = new HerdsmanStats();
+    public static getSingle(): StatsManager  {
+        if (!StatsManager._singleInstance) {
+            StatsManager._singleInstance = new StatsManager();
         }
-        return HerdsmanStats._singleInstance;
+        return StatsManager._singleInstance;
     }
 
     public static addAnimals(quantity: number): void {
-        HerdsmanStats
+        StatsManager
             .getSingle()
             .addAnimals(quantity);
     }
 
     public static setPlayerPosition(position: Vector2): void {
-        HerdsmanStats
+        StatsManager
             .getSingle()
             .setPlayerPosition(position);
     }
@@ -50,7 +51,7 @@ export class HerdsmanStats {
 
 
     public static get playerPosition(): Vector2 {
-        return HerdsmanStats
+        return StatsManager
             .getSingle()
             .playerPosition;
     }

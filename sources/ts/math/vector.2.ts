@@ -33,7 +33,6 @@ export class Vector2 {
             this._x = mathClamp(this._x, min, max);
             this._y = mathClamp(this._y, min, max);
         }
-
         return this;
     }
 
