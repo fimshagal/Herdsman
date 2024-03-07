@@ -3,7 +3,10 @@ import { HerdsmanApp } from "./herdsman";
 import { HerdsmanAssets } from "./herdsman/core/herdsman.assets";
 import { Vector2 } from "./math/vector.2";
 import { MinMax } from "./math/min.max";
-import {AnimalsManagerInitConfig, CollectAreaInitConfig, PlayerInitConfig} from "./herdsman/core/lib";
+import { AnimalsManagerInitConfig } from "./herdsman/managers/animals.manager/lib";
+import { CollectAreaInitConfig } from "./herdsman/collect.area/lib";
+import { PlayerInitConfig } from "./herdsman/entities/lib";
+
 import * as PIXI from "pixi.js";
 
 import WebFont from "webfontloader";
@@ -34,7 +37,7 @@ import WebFont from "webfontloader";
         catchDistance: 100,
     };
 
-    const onLoadFont = () => {
+    const onLoadFont = (): void => {
         HerdsmanApp
             .getSingle()
             .init({

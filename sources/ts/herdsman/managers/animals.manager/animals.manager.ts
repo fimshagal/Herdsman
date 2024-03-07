@@ -52,9 +52,11 @@ export class AnimalsManager {
 
         animal.init(config);
         this._animals.push(animal);
+
         animal.onDie.add(this.handleOnAnimalDie.bind(this));
         animal.onFollowPlayer.add(this.handleOnAnimalFollowPlayer.bind(this));
         animal.onCollected.add(this.handleOnAnimalWasCollected.bind(this));
+
         this._view!.addChild(animal.view!);
     }
 
@@ -77,7 +79,7 @@ export class AnimalsManager {
         this._catchedTexture = initConfig.catchedTexture;
     }
 
-    private createAnimalsPool() {
+    private createAnimalsPool(): void {
         for (let i = 0; i < this._poolSize; i++) {
             this.createAnimalByConfig(this.generateRandomAnimalConfig());
         }
@@ -110,11 +112,11 @@ export class AnimalsManager {
             .forEach((animal: Animal) => animal.update(deltaTime));
     }
 
-    public static get animals() {
+    public static get animals(): Animal[] {
         return AnimalsManager.getSingle()._animals;
     }
 
-    public static get playerFollowersAmount() {
+    public static get playerFollowersAmount(): number {
         return AnimalsManager.getSingle()._playerFollowersAmount;
     }
 }

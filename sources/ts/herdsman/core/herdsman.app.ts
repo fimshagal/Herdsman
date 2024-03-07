@@ -85,7 +85,7 @@ export class HerdsmanApp {
         const view: ICanvas = this._pixiApp.view as unknown as ICanvas;
         const rect = view.getBoundingClientRect?.();
         const { renderer} = this._pixiApp;
-        const targetPosition = new Vector2(event.clientX - rect!.x - (renderer.width / 2), event.clientY - rect!.y - (renderer.height / 2));
+        const targetPosition: Vector2 = new Vector2(event.clientX - rect!.x - (renderer.width / 2), event.clientY - rect!.y - (renderer.height / 2));
 
         this._player.setTargetPosition(targetPosition);
     }
@@ -115,7 +115,7 @@ export class HerdsmanApp {
             fontFamily: "Eagle Lake"
         });
 
-        const collectedAnimalsCounter = this._collectedAnimalsCounter;
+        const collectedAnimalsCounter: PIXI.Text = this._collectedAnimalsCounter;
         collectedAnimalsCounter.anchor.x = 0.5;
         collectedAnimalsCounter.anchor.y = 0.5;
         collectedAnimalsCounter.x = resizeConfig.collectedAnimalsCounter.x;
@@ -127,9 +127,7 @@ export class HerdsmanApp {
     private async updateCollectedAnimalsCounter(text: string): Promise<void> {
         this._collectedAnimalsCounter!.text = text;
         await new Promise<void>((resolve): void => {
-            const onComplete = () => {
-                resolve();
-            };
+            const onComplete = (): void => resolve();
 
             new TWEEN.Tween(this._collectedAnimalsCounter!.scale)
                 .to({ x: [1.2, 1], y: [1.2, 1] }, 100)

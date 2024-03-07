@@ -41,7 +41,7 @@ export class CollectArea {
             return;
         }
 
-        animalsInRadius.forEach(async (animal: Animal) => {
+        animalsInRadius.forEach(async (animal: Animal): Promise<void> => {
             await animal.collect(this);
             StatsManager.addAnimals(1);
         });

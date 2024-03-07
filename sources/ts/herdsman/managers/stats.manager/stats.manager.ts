@@ -43,8 +43,6 @@ export class StatsManager {
         this._playerPosition = position;
     }
 
-
-
     public get playerPosition(): Vector2 {
         return this._playerPosition;
     }

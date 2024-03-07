@@ -4,8 +4,8 @@ import { AnimalsManager } from "../managers/animals.manager/animals.manager";
 import { CommonEntityConfig, PlayerInitConfig } from "./lib";
 import { Vector2 } from "../../math/vector.2";
 import * as PIXI from "pixi.js";
-import {HerdsmanAssets} from "../core/herdsman.assets";
-import {Nullable} from "../../misc/nullable";
+import { HerdsmanAssets } from "../core/herdsman.assets";
+import { Nullable } from "../../misc/nullable";
 
 export class Player extends Entity {
     private _catchDistance: number = 0;
@@ -52,7 +52,7 @@ export class Player extends Entity {
 
 
 
-        animalsInRadius.forEach((animal: Animal) => {
+        animalsInRadius.forEach((animal: Animal): void => {
             animal.followPlayer(this);
         });
     }

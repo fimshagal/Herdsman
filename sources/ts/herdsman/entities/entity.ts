@@ -1,7 +1,7 @@
 import { Vector2 } from "../../math/vector.2";
 import { Nullable } from "../../misc/nullable";
 import * as PIXI from "pixi.js";
-import { CommonEntityConfig } from "../core/lib";
+import { CommonEntityConfig } from "./lib";
 import {Signal} from "signal-ts";
 import {Texture} from "pixi.js";
 
@@ -45,7 +45,7 @@ export class Entity {
         this.postBorn();
     }
 
-    public die() {
+    public die(): void {
         if (!this._alive) return;
 
         this._alive = false;

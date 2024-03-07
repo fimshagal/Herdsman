@@ -1,6 +1,6 @@
 import { Entity } from "./entity";
 import { Vector2 } from "../../math/vector.2";
-import { AnimalInitConfig } from "../core/lib";
+import { AnimalInitConfig } from "./lib";
 import { Player } from "./player";
 import { Nullable } from "../../misc/nullable";
 import { CollectArea } from "../collect.area/collect.area";
@@ -23,7 +23,7 @@ export class Animal extends Entity {
     public onFollowPlayer: Signal<Animal> = new Signal<Animal>();
     public onCollected: Signal<Animal> = new Signal<Animal>();
 
-    protected override postDie() {
+    protected override postDie(): void {
         super.postDie();
         this._isFollower = false;
         this._isCollected = false;
@@ -31,7 +31,7 @@ export class Animal extends Entity {
         this._collectTarget = null;
     }
 
-    protected override postBorn() {
+    protected override postBorn(): void {
         super.postBorn();
         this._view!.texture = this._texture!;
     }
@@ -61,7 +61,7 @@ export class Animal extends Entity {
         // TODO this fn need to be refactored!
     }
 
-    protected override postInit(initConfig: AnimalInitConfig) {
+    protected override postInit(initConfig: AnimalInitConfig): void {
         super.postInit(initConfig);
         this._catchedTexture = initConfig.catchedTexture;
         this.patrol();
