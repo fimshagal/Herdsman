@@ -1,0 +1,13 @@
+.application-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #282828;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.application-wrapper > canvas {
+    /* box-shadow: 0 0 50px rgba(255, 255, 255, 0.2); */
+}

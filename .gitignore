@@ -1,0 +1,11 @@
+node_modules/
+pnpm-lock.yaml
+/dist/
+.cache
+/.parcel-cache/
+.env
+.env.local
+DS_Store
+*.log
+.idea/
+*.iml
