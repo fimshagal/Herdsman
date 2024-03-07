@@ -1,10 +1,9 @@
 import { CollectAreaInitConfig } from "./lib";
 import * as PIXI from "pixi.js";
-import { Nullable } from "../../misc/nullable";
-import { Animal } from "../entities/animal";
-import { Vector2 } from "../../math/vector.2";
-import { AnimalsManager } from "../managers/animals.manager/animals.manager";
-import { StatsManager } from "../managers/stats.manager/stats.manager";
+import { Nullable } from "../../misc";
+import { Animal } from "../entities";
+import { Vector2 } from "../../math";
+import { AnimalsManager, StatsManager } from "../managers";
 
 export class CollectArea {
     private _view: Nullable<PIXI.Sprite> = null;
@@ -43,7 +42,7 @@ export class CollectArea {
 
         animalsInRadius.forEach(async (animal: Animal): Promise<void> => {
             await animal.collect(this);
-            StatsManager.addAnimals(1);
+            StatsManager.addScorePoints(animal.cost);
         });
     }
 

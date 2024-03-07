@@ -1,9 +1,9 @@
-import { MinMax } from "./min.max";
+import { MinMax } from "./";
 import { mathClamp } from "./math.clamp";
 
 export class Vector2 {
-    private _x: number;
-    private _y: number;
+    protected _x: number;
+    protected _y: number;
 
     constructor(x: number, y: number) {
         this._x = x;
@@ -49,7 +49,7 @@ export class Vector2 {
     }
 
     public randomiseWithinThreshold(threshold: number): Vector2 {
-        const randomize = (value: number) => value + Math.floor(Math.random() * (threshold * 2 + 1)) - threshold;
+        const randomize = (value: number): number => value + Math.floor(Math.random() * (threshold * 2 + 1)) - threshold;
 
         this._x = randomize(this.x);
         this._y = randomize(this.y);

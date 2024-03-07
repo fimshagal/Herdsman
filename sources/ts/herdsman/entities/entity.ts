@@ -1,5 +1,5 @@
-import { Vector2 } from "../../math/vector.2";
-import { Nullable } from "../../misc/nullable";
+import { Vector2 } from "../../math";
+import { Nullable } from "../../misc";
 import * as PIXI from "pixi.js";
 import { CommonEntityConfig } from "./lib";
 import {Signal} from "signal-ts";
@@ -7,6 +7,7 @@ import {Texture} from "pixi.js";
 
 export class Entity {
     protected _texture: Nullable<Texture> = null;
+    protected _cost: number = 0;
     protected _speed: number = 0.01;
     protected _position: Vector2 = new Vector2(0, 0);
     protected _targetPosition: Vector2 = new Vector2(0, 0);
@@ -19,6 +20,10 @@ export class Entity {
 
     public init(config: CommonEntityConfig): void {
         this._speed = config.speed;
+
+        if (config.cost) {
+            this._cost = config.cost;
+        }
 
         this._texture = config.texture;
         this._view = new PIXI.Sprite(config.texture);
@@ -111,5 +116,9 @@ export class Entity {
 
     public get position(): Vector2 {
         return this._position;
+    }
+
+    public get cost(): number {
+        return this._cost;
     }
 }

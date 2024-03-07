@@ -1,15 +1,14 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEN from "@tweenjs/tween.js";
 import { HerdsmanAppConfig } from "./lib";
-import {ICanvas} from "pixi.js";
-import { Vector2 } from "../../math/vector.2";
-import {Player} from "../entities/player";
-import {AnimalsManager} from "../managers/animals.manager/animals.manager";
-import {StatsManager} from "../managers/stats.manager/stats.manager";
-import {resizeConfig} from "../resize.config";
-import {HerdsmanAssets} from "./herdsman.assets";
-import {CollectArea} from "../collect.area/collect.area";
-import {Nullable} from "../../misc/nullable";
+import { ICanvas } from "pixi.js";
+import { Vector2 } from "../../math";
+import { Player } from "../entities";
+import { AnimalsManager, StatsManager } from "../managers";
+import { Background } from "../background/background";
+import { CollectArea } from "../collect.area/collect.area";
+import { AppSize } from "./app.size";
+import { ScorePointsCounter } from "../ui";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -17,15 +16,17 @@ export class HerdsmanApp {
 
     private _pixiApp: PIXI.Application;
     private _raf: PIXI.Ticker;
-    private _rootContainer: PIXI.Container;
-    private _uiContainer: PIXI.Container;
+    private readonly _rootContainer: PIXI.Container;
+    private readonly _uiContainer: PIXI.Container;
 
     private _player: Player = new Player();
     private _collectArea: CollectArea = new CollectArea();
+    private _background: Background = new Background();
+
     private _animalsManager: AnimalsManager = AnimalsManager.getSingle();
     private _statsManager: StatsManager = StatsManager.getSingle();
 
-    private _collectedAnimalsCounter: Nullable<PIXI.Text> = null;
+    private _scorePointsCounter: ScorePointsCounter = new ScorePointsCounter();
 
     private _isPaused: boolean = false;
 
@@ -39,11 +40,17 @@ export class HerdsmanApp {
         this._pixiApp = new PIXI.Application({
             width: appSize,
             height: appSize,
-            backgroundColor: 0x1AAA01
+            backgroundColor: 0x000000
         });
 
         this._rootContainer = new PIXI.Container();
+        this._rootContainer.sortableChildren = true;
+
         this._uiContainer = new PIXI.Container();
+        this._uiContainer.zIndex = 1;
+        this._rootContainer.addChild(this._uiContainer)
+        this._rootContainer.sortChildren();
+
         this._pixiApp.stage.addChild(this._rootContainer);
 
 
@@ -57,6 +64,7 @@ export class HerdsmanApp {
 
     private update(deltaTime: number): void {
         if (this._isPaused) return;
+
         TWEEN.update();
         this._collectArea.update(deltaTime);
         this._player.update(deltaTime);
@@ -76,69 +84,35 @@ export class HerdsmanApp {
     }
 
     private followPlayer(): void {
-        this._player.onReCalcPosition.add((position: Vector2): void => {
-            this._statsManager.setPlayerPosition(position.clone());
-        });
+        this._player.onReCalcPosition.add(this.handlePlayerReCalcPosition.bind(this));
+    }
+
+    private handlePlayerReCalcPosition(position: Vector2): void {
+        this._statsManager.setPlayerPosition(position.clone());
     }
 
     private handleOnClickView(event: MouseEvent): void {
         const view: ICanvas = this._pixiApp.view as unknown as ICanvas;
         const rect = view.getBoundingClientRect?.();
-        const { renderer} = this._pixiApp;
-        const targetPosition: Vector2 = new Vector2(event.clientX - rect!.x - (renderer.width / 2), event.clientY - rect!.y - (renderer.height / 2));
 
-        this._player.setTargetPosition(targetPosition);
+        const { clientX, clientY } = event;
+        const appSize: AppSize = HerdsmanApp.appSize;
+
+        this._player.setTargetPosition(new Vector2(
+            clientX - rect!.x - appSize.halfWidth,
+            clientY - rect!.y - appSize.halfHeight,
+        ));
     }
 
     private resizeScene(): void {
-        this._rootContainer.x = this._pixiApp.renderer.width / 2;
-        this._rootContainer.y = this._pixiApp.renderer.height / 2;
-    }
-
-    private addBackground(): void {
-        const background: PIXI.Sprite = new PIXI.Sprite(HerdsmanAssets.BackgroundTexture);
-        background.x = resizeConfig.background.x;
-        background.y = resizeConfig.background.y;
-        this._rootContainer.addChild(background);
-    }
-
-    private initUI(): void {
-        this._rootContainer.addChild(this._uiContainer);
-
-        this._collectedAnimalsCounter = new PIXI.Text("0", {
-            dropShadow: false,
-            strokeThickness: 8,
-            stroke: "#100e36",
-            fill: "#ff9900",
-            fontWeight: "bold",
-            fontSize: 62,
-            fontFamily: "Eagle Lake"
-        });
-
-        const collectedAnimalsCounter: PIXI.Text = this._collectedAnimalsCounter;
-        collectedAnimalsCounter.anchor.x = 0.5;
-        collectedAnimalsCounter.anchor.y = 0.5;
-        collectedAnimalsCounter.x = resizeConfig.collectedAnimalsCounter.x;
-        collectedAnimalsCounter.y = resizeConfig.collectedAnimalsCounter.y;
-
-        this._uiContainer.addChild(this._collectedAnimalsCounter);
-    }
-
-    private async updateCollectedAnimalsCounter(text: string): Promise<void> {
-        this._collectedAnimalsCounter!.text = text;
-        await new Promise<void>((resolve): void => {
-            const onComplete = (): void => resolve();
-
-            new TWEEN.Tween(this._collectedAnimalsCounter!.scale)
-                .to({ x: [1.2, 1], y: [1.2, 1] }, 100)
-                .onComplete(onComplete)
-                .start();
-        })
+        const appSize: AppSize = HerdsmanApp.appSize;
+        this._rootContainer.x = appSize.halfWidth;
+        this._rootContainer.y = appSize.halfHeight;
     }
 
     private followStats(): void {
-        this._statsManager.onUpdateCollectedAnimals
-            .add(async (value: number): Promise<void> => await this.updateCollectedAnimalsCounter(`${value}`));
+        this._statsManager.onUpdateScorePoints
+            .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
     }
 
     public static getSingle(): HerdsmanApp  {
@@ -154,20 +128,23 @@ export class HerdsmanApp {
             playerInitConfig,
             animalsManagerInitConfig,
             collectAreaInitConfig,
+            scorePointsCounterInitConfig,
+            backgroundInitConfig,
         } = options;
 
         if (!parentElement) return;
 
-        this.addBackground();
-
+        this._background.init(backgroundInitConfig);
         this._collectArea.init(collectAreaInitConfig);
         this._player.init(playerInitConfig);
         this.followPlayer();
         this._statsManager.setPlayerPosition(this._player.position.clone());
         this._animalsManager.init(animalsManagerInitConfig);
 
-        this.initUI();
+        this._scorePointsCounter.init(scorePointsCounterInitConfig);
+        this._uiContainer.addChild(this._scorePointsCounter.view!);
 
+        this._rootContainer.addChild(this._background.view!);
         this._rootContainer.addChild(this._collectArea.view!);
         this._rootContainer.addChild(this._animalsManager.view!);
         this._rootContainer.addChild(this._player.view!);
@@ -179,5 +156,9 @@ export class HerdsmanApp {
         this.followInput();
 
         this._raf.add(this.update.bind(this));
+    }
+
+    public static get appSize(): AppSize {
+        return new AppSize(HerdsmanApp._appSize, HerdsmanApp._appSize);
     }
 }

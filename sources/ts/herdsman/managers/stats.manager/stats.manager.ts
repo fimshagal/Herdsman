@@ -1,13 +1,13 @@
 import { Signal } from "signal-ts";
-import { Vector2 } from "../../../math/vector.2";
+import { Vector2 } from "../../../math";
 
 export class StatsManager {
     private static _singleInstance: StatsManager;
 
-    private _collectedAnimals = 0;
+    private _scorePoints: number = 0;
     private _playerPosition: Vector2 = Vector2.zero;
 
-    public onUpdateCollectedAnimals: Signal<number> = new Signal();
+    public onUpdateScorePoints: Signal<number> = new Signal();
 
     constructor() {
         if (StatsManager._singleInstance) {
@@ -22,10 +22,10 @@ export class StatsManager {
         return StatsManager._singleInstance;
     }
 
-    public static addAnimals(quantity: number): void {
+    public static addScorePoints(quantity: number): void {
         StatsManager
             .getSingle()
-            .addAnimals(quantity);
+            .addScorePoints(quantity);
     }
 
     public static setPlayerPosition(position: Vector2): void {
@@ -34,9 +34,9 @@ export class StatsManager {
             .setPlayerPosition(position);
     }
 
-    public addAnimals(quantity: number): void {
-        this._collectedAnimals += quantity;
-        this.onUpdateCollectedAnimals.emit(this._collectedAnimals);
+    public addScorePoints(quantity: number): void {
+        this._scorePoints += quantity;
+        this.onUpdateScorePoints.emit(this._scorePoints);
     }
 
     public setPlayerPosition(position: Vector2): void {

@@ -1,0 +1,1 @@
+export * from "./score.points.counter/score.points.counter";

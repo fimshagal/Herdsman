@@ -1,5 +1,5 @@
 import { Texture } from "pixi.js";
-import { Vector2 } from "../../math/vector.2";
+import { Vector2 } from "../../math";
 
 export interface CollectAreaInitConfig {
     texture: Texture,

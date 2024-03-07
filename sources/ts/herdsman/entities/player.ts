@@ -1,15 +1,16 @@
-import { Entity } from "./entity";
-import { Animal } from "./animal";
-import { AnimalsManager } from "../managers/animals.manager/animals.manager";
+import { Entity, Animal } from "./";
+import { AnimalsManager } from "../managers";
 import { CommonEntityConfig, PlayerInitConfig } from "./lib";
-import { Vector2 } from "../../math/vector.2";
+import { Vector2 } from "../../math";
 import * as PIXI from "pixi.js";
 import { HerdsmanAssets } from "../core/herdsman.assets";
-import { Nullable } from "../../misc/nullable";
+import { Nullable } from "../../misc";
 
 export class Player extends Entity {
     private _catchDistance: number = 0;
+    private _maxFollowers: number = 1;
     private _glow: Nullable<PIXI.Sprite> = null;
+    private _followPositionOffset: Vector2 = Vector2.zero;
 
     protected override postUpdate(): void {
         super.postUpdate();
@@ -24,11 +25,19 @@ export class Player extends Entity {
 
         this._catchDistance = playerInitConfig.catchDistance;
 
+        if (playerInitConfig.maxFollowers) {
+            this._maxFollowers = playerInitConfig.maxFollowers;
+        }
+
+        if (playerInitConfig.followPositionOffset) {
+            this._followPositionOffset = playerInitConfig.followPositionOffset;
+        }
+
         this.addGlow();
     }
 
     private setGlowByFollowersAmount(): void {
-        this._glow!.alpha = 1 - AnimalsManager.playerFollowersAmount / 5;
+        this._glow!.alpha = 1 - (AnimalsManager.playerFollowersAmount / this._maxFollowers);
     }
 
     private addGlow(): void {
@@ -40,7 +49,7 @@ export class Player extends Entity {
 
     private searchAnimals(animals: Animal[]): void {
 
-        if (AnimalsManager.playerFollowersAmount > 5) {
+        if (AnimalsManager.playerFollowersAmount >= this._maxFollowers) {
             return;
         }
 
@@ -50,11 +59,8 @@ export class Player extends Entity {
             return;
         }
 
-
-
-        animalsInRadius.forEach((animal: Animal): void => {
-            animal.followPlayer(this);
-        });
+        animalsInRadius
+            .forEach((animal: Animal): void => animal.followPlayer(this));
     }
 
     private getAnimalsInRadius(animals: Animal[]): Animal[] {
@@ -78,6 +84,6 @@ export class Player extends Entity {
     public get followPosition(): Vector2 {
         return this._position
             .clone()
-            .add(new Vector2(50, 50));
+            .add(this._followPositionOffset);
     }
 }

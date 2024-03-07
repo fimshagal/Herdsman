@@ -1,37 +1,28 @@
-export class MinMax {
-    private _min: number;
-    private _max: number;
+import { Vector2 } from "./";
 
-    constructor(min: number, max: number) {
-        this._min = min;
-        this._max = max;
-    }
-
-    public clone(): MinMax {
-        return new MinMax(this._min, this._max);
-    }
+export class MinMax extends Vector2{
 
     public get diff(): number {
-        return Math.abs(this._max - this._min);
+        return Math.abs(this._y - this._x);
     }
 
     public get randomPoint(): number {
-        return Math.random() * (this._max - this._min + 1) + this._min;
+        return Math.random() * (this._y - this._x + 1) + this._x;
     }
 
     public get min(): number {
-        return this._min;
+        return this._x;
     }
 
     public get max(): number {
-        return this._max;
+        return this._y;
     }
 
     public set min(value: number) {
-        this._min = value;
+        this._x = value;
     }
 
     public set max(value: number) {
-        this._max = value;
+        this._y = value;
     }
 }

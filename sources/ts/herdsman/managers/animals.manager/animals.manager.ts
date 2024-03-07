@@ -1,11 +1,10 @@
 import { AnimalsManagerInitConfig } from "./lib";
 import {EntityInitConfig} from "../../entities/lib";
-import { Animal } from "../../entities/animal";
-import { MinMax } from "../../../math/min.max";
-import { Vector2 } from "../../../math/vector.2";
-import { Texture, Resource } from "pixi.js";
-import { Nullable } from "../../../misc/nullable";
+import { Animal } from "../../entities";
+import { MinMax, Vector2 } from "../../../math";
+import { Nullable } from "../../../misc";
 import * as PIXI from "pixi.js";
+import { HerdsmanApp } from "../../core/herdsman.app";
 
 export class AnimalsManager {
     private static _singleInstance: AnimalsManager;
@@ -13,10 +12,11 @@ export class AnimalsManager {
     private readonly _view: Nullable<PIXI.Container> = null;
     private _poolSize: number = 0;
     private _animals: Animal[] = [];
-    private _textures: Texture[] = [];
-    private _catchedTexture: Nullable<Texture> = null;
+    private _textures: PIXI.Texture[] = [];
+    private _catchedTexture: Nullable<PIXI.Texture> = null;
     private _autoSpawnRange: MinMax = new MinMax(0, 0.1);
     private _speed: number = 0;
+    private _cost: number = 0;
 
     private _playerFollowersAmount: number = 0;
 
@@ -32,9 +32,10 @@ export class AnimalsManager {
     }
 
     private handleOnAnimalDie(animal: Animal): void {
+        const appSize = HerdsmanApp.appSize;
         animal.view!.scale.x = 1;
         animal.view!.scale.y = 1;
-        animal.setPosition(this.getRandomCoords(new MinMax(600, 620)));
+        animal.setPosition(this.getRandomCoords(new MinMax(appSize.width, appSize.height)));
         animal.born();
         animal.patrol();
     }
@@ -47,27 +48,28 @@ export class AnimalsManager {
         this._playerFollowersAmount -= 1;
     }
 
-    private createAnimalByConfig(config: EntityInitConfig): void {
-        const animal = new Animal();
+    private createAnimalByConfig(config: EntityInitConfig): Animal {
+        const animal: Animal = new Animal();
 
         animal.init(config);
         this._animals.push(animal);
+        this._view!.addChild(animal.view!);
+        return animal;
+    }
 
+    private followAnimal(animal: Animal): void {
         animal.onDie.add(this.handleOnAnimalDie.bind(this));
         animal.onFollowPlayer.add(this.handleOnAnimalFollowPlayer.bind(this));
         animal.onCollected.add(this.handleOnAnimalWasCollected.bind(this));
-
-        this._view!.addChild(animal.view!);
     }
 
     private getRandomCoords(range: MinMax): Vector2 {
         const theta: number = Math.random() * 2 * Math.PI;
         const distance: number = Math.random() * range.diff + range.min;
-
         return new Vector2(distance * Math.cos(theta), distance * Math.sin(theta));
     }
 
-    private getRandomTexture(textures: Texture[]): Texture<Resource> {
+    private getRandomTexture(textures: PIXI.Texture[]): PIXI.Texture<PIXI.Resource> {
         return textures[Math.floor(Math.random() * textures.length)];
     }
 
@@ -77,11 +79,14 @@ export class AnimalsManager {
         this._textures = initConfig.textures;
         this._poolSize = initConfig.poolSize;
         this._catchedTexture = initConfig.catchedTexture;
+        this._cost = initConfig.cost;
     }
 
     private createAnimalsPool(): void {
         for (let i = 0; i < this._poolSize; i++) {
-            this.createAnimalByConfig(this.generateRandomAnimalConfig());
+            const randomConfig: EntityInitConfig = this.generateRandomAnimalConfig();
+            const animal: Animal = this.createAnimalByConfig(randomConfig);
+            this.followAnimal(animal);
         }
     }
 
@@ -92,6 +97,7 @@ export class AnimalsManager {
             texture: this.getRandomTexture(this._textures),
             catchedTexture: this._catchedTexture,
             speed: this._speed,
+            cost: this._cost,
         } as EntityInitConfig;
     }
 

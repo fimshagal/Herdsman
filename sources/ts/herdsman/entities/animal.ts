@@ -1,14 +1,14 @@
 import { Entity } from "./entity";
-import { Vector2 } from "../../math/vector.2";
+import { Vector2, MinMax } from "../../math";
 import { AnimalInitConfig } from "./lib";
 import { Player } from "./player";
-import { Nullable } from "../../misc/nullable";
+import { Nullable, delay } from "../../misc";
 import { CollectArea } from "../collect.area/collect.area";
 import * as TWEEN from '@tweenjs/tween.js';
-import { delay } from "../../misc/delay";
-import { MinMax } from "../../math/min.max";
 import * as PIXI from "pixi.js";
-import {Signal} from "signal-ts";
+import { Signal } from "signal-ts";
+import { HerdsmanApp } from "../core/herdsman.app";
+import { AppSize } from "../core/app.size";
 
 export class Animal extends Entity {
 
@@ -37,28 +37,23 @@ export class Animal extends Entity {
     }
 
     public async patrol(): Promise<void> {
-        // TODO this fn need to be refactored!
-        // TODO this fn need to be refactored!
-        // TODO this fn need to be refactored!
-
         if (this._isFollower || this._isCollected) {
             return;
         }
 
         const randomFactor: number = Math.floor(Math.random() * 1000) + 50;
+        const appSize: AppSize = HerdsmanApp.appSize;
+
         await delay(randomFactor);
-        const newPosition = this.position
+
+        const newPosition: Vector2 = this.position
             .clone()
-            .add(Vector2.zero.randomiseWithinThreshold(150))
-            .clamp(new MinMax(-420, 420));
+            .add(Vector2.zero.randomiseWithinThreshold(100))
+            .clamp(new MinMax(-appSize.halfWidth, appSize.halfHeight));
 
         this.setTargetPosition(newPosition);
         await delay(randomFactor * 3);
         await this.patrol();
-
-        // TODO this fn need to be refactored!
-        // TODO this fn need to be refactored!
-        // TODO this fn need to be refactored!
     }
 
     protected override postInit(initConfig: AnimalInitConfig): void {
