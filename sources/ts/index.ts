@@ -1,8 +1,8 @@
-import { onDocReady } from "./on.doc.ready";
+import { onDocReady } from "./misc/on.doc.ready";
 import { HerdsmanApp } from "./herdsman";
 import { HerdsmanAssets } from "./herdsman/herdsman.assets";
-import { Vector2 } from "./vector.2";
-import { MinMax } from "./min.max";
+import { Vector2 } from "./math/vector.2";
+import { MinMax } from "./math/min.max";
 import {AnimalsManagerInitConfig, CollectAreaInitConfig, PlayerInitConfig} from "./herdsman/herdsman.interfaces";
 import * as PIXI from "pixi.js";
 

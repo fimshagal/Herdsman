@@ -1,23 +1,9 @@
-import { Nullable } from "../nullable";
+import { Nullable } from "../misc/nullable";
 import {Texture} from "pixi.js";
-import {Vector2} from "../vector.2";
-import { MinMax } from "../min.max";
+import {Vector2} from "../math/vector.2";
+import { MinMax } from "../math/min.max";
 import * as PIXI from "pixi.js";
-
-export interface EntityInitConfig {
-    speed: number;
-    initPosition: Vector2;
-    texture: Texture;
-    autoBorn: boolean;
-}
-
-export interface PlayerInitConfig extends EntityInitConfig {
-    catchDistance: number,
-}
-
-export interface AnimalInitConfig extends EntityInitConfig {
-    catchedTexture: PIXI.Texture,
-}
+import { PlayerInitConfig } from "./entities/lib";
 
 export interface AnimalsManagerInitConfig {
     poolSize: number;
@@ -39,8 +25,6 @@ export interface CollectAreaInitConfig {
     initPosition: Vector2,
     catchDistance: number
 }
-
-export type CommonEntityConfig = EntityInitConfig | PlayerInitConfig | AnimalInitConfig;
 
 export interface IHerdsmanAssets {
     [key: string]: PIXI.Texture,

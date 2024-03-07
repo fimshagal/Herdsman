@@ -1,9 +1,9 @@
-import { AnimalsManagerInitConfig, EntityInitConfig } from "./herdsman.interfaces";
-import { Animal } from "./animal";
-import { MinMax } from "../min.max";
-import { Vector2 } from "../vector.2";
+import { AnimalsManagerInitConfig, EntityInitConfig } from "../../herdsman.interfaces";
+import { Animal } from "../../entities/animal";
+import { MinMax } from "../../../math/min.max";
+import { Vector2 } from "../../../math/vector.2";
 import { Texture, Resource } from "pixi.js";
-import { Nullable } from "../nullable";
+import { Nullable } from "../../../misc/nullable";
 import * as PIXI from "pixi.js";
 
 export class AnimalsManager {

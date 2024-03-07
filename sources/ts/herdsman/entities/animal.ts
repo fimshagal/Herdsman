@@ -1,12 +1,12 @@
 import { Entity } from "./entity";
-import { Vector2 } from "../vector.2";
-import { AnimalInitConfig } from "./herdsman.interfaces";
+import { Vector2 } from "../../math/vector.2";
+import { AnimalInitConfig } from "../herdsman.interfaces";
 import { Player } from "./player";
-import { Nullable } from "../nullable";
-import { CollectArea } from "./collect.area";
+import { Nullable } from "../../misc/nullable";
+import { CollectArea } from "../collect.area";
 import * as TWEEN from '@tweenjs/tween.js';
-import { delay } from "../delay";
-import { MinMax } from "../min.max";
+import { delay } from "../../misc/delay";
+import { MinMax } from "../../math/min.max";
 import * as PIXI from "pixi.js";
 import {Signal} from "signal-ts";
 

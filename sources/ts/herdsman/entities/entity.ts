@@ -1,7 +1,7 @@
-import { Vector2 } from "../vector.2";
-import { Nullable } from "../nullable";
+import { Vector2 } from "../../math/vector.2";
+import { Nullable } from "../../misc/nullable";
 import * as PIXI from "pixi.js";
-import { CommonEntityConfig } from "./herdsman.interfaces";
+import { CommonEntityConfig } from "../herdsman.interfaces";
 import {Signal} from "signal-ts";
 import {Texture} from "pixi.js";
 

@@ -1,5 +1,5 @@
 import { Signal } from "signal-ts";
-import {Vector2} from "../vector.2";
+import {Vector2} from "../math/vector.2";
 export class HerdsmanStats {
     private static _singleInstance: HerdsmanStats;
 

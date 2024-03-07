@@ -1,4 +1,4 @@
-import { Vector2 } from "../vector.2";
+import { Vector2 } from "../math/vector.2";
 import { IResizeConfig } from "./herdsman.interfaces";
 
 export const resizeConfig: IResizeConfig = {

@@ -1,9 +1,9 @@
 import { CollectAreaInitConfig } from "./herdsman.interfaces";
 import * as PIXI from "pixi.js";
-import {Nullable} from "../nullable";
-import {Animal} from "./animal";
-import {Vector2} from "../vector.2";
-import {AnimalsManager} from "./animals.manager";
+import {Nullable} from "../misc/nullable";
+import {Animal} from "./entities/animal";
+import {Vector2} from "../math/vector.2";
+import {AnimalsManager} from "./managers/animal/animals.manager";
 import {HerdsmanStats} from "./herdsman.stats";
 
 export class CollectArea {

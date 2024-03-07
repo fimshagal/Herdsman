@@ -1,11 +1,11 @@
 import { Entity } from "./entity";
 import { Animal } from "./animal";
-import { AnimalsManager } from "./animals.manager";
-import { CommonEntityConfig, PlayerInitConfig } from "./herdsman.interfaces";
-import { Vector2 } from "../vector.2";
+import { AnimalsManager } from "../managers/animal/animals.manager";
+import { CommonEntityConfig, PlayerInitConfig } from "./lib";
+import { Vector2 } from "../../math/vector.2";
 import * as PIXI from "pixi.js";
-import {HerdsmanAssets} from "./herdsman.assets";
-import {Nullable} from "../nullable";
+import {HerdsmanAssets} from "../herdsman.assets";
+import {Nullable} from "../../misc/nullable";
 
 export class Player extends Entity {
     private _catchDistance: number = 0;

@@ -2,14 +2,14 @@ import * as PIXI from 'pixi.js';
 import * as TWEEN from "@tweenjs/tween.js";
 import { HerdsmanAppConfig } from "./herdsman.interfaces";
 import {ICanvas} from "pixi.js";
-import { Vector2 } from "../vector.2";
-import {Player} from "./player";
-import {AnimalsManager} from "./animals.manager";
+import { Vector2 } from "../math/vector.2";
+import {Player} from "./entities/player";
+import {AnimalsManager} from "./managers/animal/animals.manager";
 import {HerdsmanStats} from "./herdsman.stats";
 import {resizeConfig} from "./resize.config";
 import {HerdsmanAssets} from "./herdsman.assets";
 import {CollectArea} from "./collect.area";
-import {Nullable} from "../nullable";
+import {Nullable} from "../misc/nullable";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
