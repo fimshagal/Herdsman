@@ -1,5 +1,5 @@
 import { AnimalsManagerInitConfig } from "./lib";
-import {EntityInitConfig} from "../../entities/lib";
+import {AnimalInitConfig, EntityInitConfig} from "../../entities/lib";
 import { Animal } from "../../entities";
 import { MinMax, Vector2 } from "../../../math";
 import { Nullable } from "../../../misc";
@@ -14,7 +14,9 @@ export class AnimalsManager {
     private _animals: Animal[] = [];
     private _textures: PIXI.Texture[] = [];
     private _catchedTexture: Nullable<PIXI.Texture> = null;
-    private _autoSpawnRange: MinMax = new MinMax(0, 0.1);
+    private _autoSpawnRange: MinMax = MinMax.zero;
+    private _patrolDelayRange: MinMax = MinMax.zero;
+    private _patrolStepMaxDistance: number = 0;
     private _speed: number = 0;
     private _cost: number = 0;
 
@@ -75,6 +77,8 @@ export class AnimalsManager {
 
     private applyInitConfig(initConfig: AnimalsManagerInitConfig): void {
         this._autoSpawnRange = initConfig.autoSpawnRange;
+        this._patrolDelayRange = initConfig.patrolDelayRange;
+        this._patrolStepMaxDistance = initConfig.patrolStepMaxDistance;
         this._speed = initConfig.speed;
         this._textures = initConfig.textures;
         this._poolSize = initConfig.poolSize;
@@ -90,15 +94,17 @@ export class AnimalsManager {
         }
     }
 
-    private generateRandomAnimalConfig(): EntityInitConfig {
+    private generateRandomAnimalConfig(): AnimalInitConfig {
         return {
             autoBorn: true,
             initPosition: this.getRandomCoords(this._autoSpawnRange),
             texture: this.getRandomTexture(this._textures),
+            patrolDelayRange: this._patrolDelayRange,
+            patrolStepMaxDistance: this._patrolStepMaxDistance,
             catchedTexture: this._catchedTexture,
             speed: this._speed,
             cost: this._cost,
-        } as EntityInitConfig;
+        };
     }
 
     public static getSingle(): AnimalsManager  {

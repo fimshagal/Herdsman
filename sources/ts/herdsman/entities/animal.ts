@@ -3,7 +3,7 @@ import { Vector2, MinMax } from "../../math";
 import { AnimalInitConfig } from "./lib";
 import { Player } from "./player";
 import { Nullable, delay } from "../../misc";
-import { CollectArea } from "../collect.area/collect.area";
+import { CollectArea } from "../collect.area";
 import * as TWEEN from '@tweenjs/tween.js';
 import * as PIXI from "pixi.js";
 import { Signal } from "signal-ts";
@@ -19,6 +19,8 @@ export class Animal extends Entity {
     private _collectTween: Nullable<TWEEN.Tween<any>> = null;
     private _beholdShift: Vector2 = Vector2.zero.randomiseWithinThreshold(25);
     private _catchedTexture: Nullable<PIXI.Texture> = null;
+    private _patrolDelayRange: MinMax = MinMax.zero;
+    private _patrolStepMaxDistance: number = 0;
 
     public onFollowPlayer: Signal<Animal> = new Signal<Animal>();
     public onCollected: Signal<Animal> = new Signal<Animal>();
@@ -41,24 +43,23 @@ export class Animal extends Entity {
             return;
         }
 
-        const randomFactor: number = Math.floor(Math.random() * 1000) + 50;
         const appSize: AppSize = HerdsmanApp.appSize;
-
-        await delay(randomFactor);
 
         const newPosition: Vector2 = this.position
             .clone()
-            .add(Vector2.zero.randomiseWithinThreshold(100))
+            .add(Vector2.zero.randomiseWithinThreshold(this._patrolStepMaxDistance))
             .clamp(new MinMax(-appSize.halfWidth, appSize.halfHeight));
 
         this.setTargetPosition(newPosition);
-        await delay(randomFactor * 3);
+        await delay(this._patrolDelayRange.randomPoint);
         await this.patrol();
     }
 
     protected override postInit(initConfig: AnimalInitConfig): void {
         super.postInit(initConfig);
         this._catchedTexture = initConfig.catchedTexture;
+        this._patrolDelayRange = initConfig.patrolDelayRange;
+        this._patrolStepMaxDistance = initConfig.patrolStepMaxDistance;
         this.patrol();
     }
 

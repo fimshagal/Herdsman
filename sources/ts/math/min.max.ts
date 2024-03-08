@@ -7,7 +7,7 @@ export class MinMax extends Vector2{
     }
 
     public get randomPoint(): number {
-        return Math.random() * (this._y - this._x + 1) + this._x;
+        return Vector2.lerp(this.min, this.max, Math.random());
     }
 
     public get min(): number {
@@ -24,5 +24,13 @@ export class MinMax extends Vector2{
 
     public set max(value: number) {
         this._y = value;
+    }
+
+    public static override get zero(): MinMax {
+        return new MinMax(0, 0);
+    }
+
+    public override get zero(): MinMax {
+        return MinMax.zero;
     }
 }

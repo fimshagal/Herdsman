@@ -36,6 +36,8 @@ import {BackgroundInitConfig} from "./herdsman/background/lib";
         cost: 2,
         textures: animalsTextures,
         catchedTexture: HerdsmanAssets.AnimalCatchedTexture,
+        patrolDelayRange: new MinMax(1000, 5000),
+        patrolStepMaxDistance: 100,
     };
 
     const collectAreaInitConfig: CollectAreaInitConfig = {

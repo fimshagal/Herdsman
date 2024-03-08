@@ -1,5 +1,6 @@
-import { Vector2 } from "../../math";
+import {MinMax, Vector2} from "../../math";
 import * as PIXI from "pixi.js";
+import {Nullable} from "../../misc";
 
 export interface EntityInitConfig {
     speed: number;
@@ -16,7 +17,9 @@ export interface PlayerInitConfig extends EntityInitConfig {
 }
 
 export interface AnimalInitConfig extends EntityInitConfig {
-    catchedTexture: PIXI.Texture,
+    catchedTexture: Nullable<PIXI.Texture>,
+    patrolDelayRange: MinMax,
+    patrolStepMaxDistance: number,
 }
 
 export type CommonEntityConfig = EntityInitConfig | PlayerInitConfig | AnimalInitConfig;

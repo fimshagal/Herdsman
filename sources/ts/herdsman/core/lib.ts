@@ -1,4 +1,4 @@
-import { Nullable } from "../../misc/nullable";
+import { Nullable } from "../../misc";
 import { Vector2 } from "../../math";
 import * as PIXI from "pixi.js";
 import { PlayerInitConfig } from "../entities/lib";

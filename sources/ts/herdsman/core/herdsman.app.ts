@@ -5,8 +5,8 @@ import { ICanvas } from "pixi.js";
 import { Vector2 } from "../../math";
 import { Player } from "../entities";
 import { AnimalsManager, StatsManager } from "../managers";
-import { Background } from "../background/background";
-import { CollectArea } from "../collect.area/collect.area";
+import { Background } from "../background";
+import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
 import { ScorePointsCounter } from "../ui";
 
@@ -71,16 +71,14 @@ export class HerdsmanApp {
         this._animalsManager.update(deltaTime);
     }
 
-    private followInput(): void {
-        this.followPointer();
+    private listenInput(): void {
+        this.listenPointer();
         window.addEventListener('resize', this.resizeScene.bind(this));
     }
 
-    private followPointer(): void {
+    private listenPointer(): void {
         const view: Node = this._pixiApp.view as unknown as Node;
-
-        // @ts-ignore
-        view.addEventListener('click', this.handleOnClickView.bind(this));
+        view.addEventListener('click', this.handleOnClickView.bind(this) as EventListener);
     }
 
     private followPlayer(): void {
@@ -110,7 +108,7 @@ export class HerdsmanApp {
         this._rootContainer.y = appSize.halfHeight;
     }
 
-    private followStats(): void {
+    private listenStats(): void {
         this._statsManager.onUpdateScorePoints
             .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
     }
@@ -149,11 +147,11 @@ export class HerdsmanApp {
         this._rootContainer.addChild(this._animalsManager.view!);
         this._rootContainer.addChild(this._player.view!);
 
-        this.followStats();
+        this.listenStats();
 
         this.injectView(parentElement);
         this.resizeScene();
-        this.followInput();
+        this.listenInput();
 
         this._raf.add(this.update.bind(this));
     }
