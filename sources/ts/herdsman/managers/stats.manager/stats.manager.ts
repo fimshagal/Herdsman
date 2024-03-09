@@ -8,6 +8,8 @@ export class StatsManager {
     private _lives: number = 5;
     private _playerPosition: Vector2 = Vector2.zero;
 
+    private _gameOver: boolean = false;
+
     public onUpdateScorePoints: Signal<number> = new Signal();
     public onRemoveLife: Signal<number> = new Signal();
     public onGameOver: Signal<void> = new Signal();
@@ -60,12 +62,20 @@ export class StatsManager {
         this._playerPosition = position;
     }
 
+    public setGameOver() {
+        this._gameOver = true;
+    }
+
     public get playerPosition(): Vector2 {
         return this._playerPosition;
     }
 
     public get lives(): number {
         return this._lives;
+    }
+
+    public get gameOver(): boolean {
+        return this._gameOver;
     }
 
 
@@ -79,6 +89,12 @@ export class StatsManager {
         return StatsManager
             .getSingle()
             .lives;
+    }
+
+    public static get gameOver(): boolean {
+        return StatsManager
+            .getSingle()
+            .gameOver;
     }
 
 }

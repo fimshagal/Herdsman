@@ -122,6 +122,7 @@ export class HerdsmanApp {
     }
 
     private handleGameOver(): void {
+        this._statsManager.setGameOver();
         this._loseScreen.show();
     }
 

@@ -8,6 +8,7 @@ import {HerdsmanApp} from "../core/herdsman.app";
 import {Player} from "./player";
 import {CollectArea} from "../collect.area";
 import * as TWEEN from "@tweenjs/tween.js";
+import {StatsManager} from "../managers";
 
 export class Entity {
     protected _texture: Nullable<PIXI.Texture> = null;
@@ -135,7 +136,7 @@ export class Entity {
     }
 
     public update(deltaTime: number): void {
-        if (!this._alive) {
+        if (!this._alive || StatsManager.gameOver) {
             return;
         }
 
