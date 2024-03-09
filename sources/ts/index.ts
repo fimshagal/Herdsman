@@ -106,6 +106,11 @@ import {HurtScreenInitConfig} from "./herdsman/ui/hurt.screen/lib";
 
     const loseScreenInitConfig: LoseScreenInitConfig = {
         initPosition: Vector2.zero,
+        restartButtonInitConfig: {
+            initPosition: new Vector2(0, 190),
+            texture: HerdsmanAssets.ButtonRestartTexture,
+            hoverTexture: HerdsmanAssets.ButtonRestartHoverTexture,
+        },
     };
 
     const hurtScreenInitConfig: HurtScreenInitConfig = {

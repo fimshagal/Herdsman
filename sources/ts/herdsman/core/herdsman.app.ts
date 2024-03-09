@@ -10,6 +10,7 @@ import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
 import {LivesCounter, LoseScreen, ScorePointsCounter} from "../ui";
 import {HurtScreen} from "../ui/hurt.screen";
+import {SimpleButton} from "../ui/simple.button";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -120,10 +121,21 @@ export class HerdsmanApp {
             });
 
         this._statsManager.onUpdateScorePoints
-            .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
+            .add(async (value: number): Promise<void> => {
+                this._scorePointsCounter.update(value);
+                this._loseScreen.updateRecordText(value);
+            });
 
         this._statsManager.onGameOver
             .add(this.handleGameOver.bind(this));
+    }
+
+    private listenUI(): void {
+        this._loseScreen.onClickRestartButton.add(this.restartApplication.bind(this));
+    }
+
+    private restartApplication(button: SimpleButton): void {
+        location.reload();
     }
 
     private handleGameOver(): void {
@@ -180,6 +192,7 @@ export class HerdsmanApp {
         this._rootContainer.addChild(this._player.view!);
 
         this.listenStats();
+        this.listenUI();
 
         this.injectView(parentElement);
         this.resizeScene();

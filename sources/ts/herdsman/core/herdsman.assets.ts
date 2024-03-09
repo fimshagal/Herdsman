@@ -11,6 +11,8 @@ import PlayerGlowTexture from "../../../textures/player-glow.png";
 import HeartTexture from "../../../textures/heart.png";
 import LoseBackgroundTexture from "../../../textures/lose-background.jpg";
 import HurtBackgroundTexture from "../../../textures/damage-overlay.png";
+import ButtonRestartTexture from "../../../textures/button-restart.png";
+import ButtonRestartHoverTexture from "../../../textures/button-restart-hover.png";
 import * as PIXI from "PIXI.js";
 import { IHerdsmanAssets } from "./lib";
 
@@ -30,4 +32,6 @@ export const HerdsmanAssets: IHerdsmanAssets = {
     HeartTexture: createTexture(HeartTexture),
     LoseBackgroundTexture: createTexture(LoseBackgroundTexture),
     HurtBackgroundTexture: createTexture(HurtBackgroundTexture),
+    ButtonRestartTexture: createTexture(ButtonRestartTexture),
+    ButtonRestartHoverTexture: createTexture(ButtonRestartHoverTexture),
 };
