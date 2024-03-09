@@ -1,5 +1,5 @@
-import { Entity, Animal } from "./";
-import { AnimalsManager } from "../managers";
+import { Entity } from "./";
+import { EntitiesManager } from "../managers";
 import { CommonEntityConfig, PlayerInitConfig } from "./lib";
 import { Vector2 } from "../../math";
 import * as PIXI from "pixi.js";
@@ -10,12 +10,11 @@ export class Player extends Entity {
     private _catchDistance: number = 0;
     private _maxFollowers: number = 1;
     private _glow: Nullable<PIXI.Sprite> = null;
-    private _followPositionOffset: Vector2 = Vector2.zero;
 
     protected override postUpdate(): void {
         super.postUpdate();
         this.setGlowByFollowersAmount();
-        this.searchAnimals(AnimalsManager.animals);
+        this.searchEntities(EntitiesManager.allEntities);
     }
 
     protected override postInit(initConfig: CommonEntityConfig): void {
@@ -37,7 +36,7 @@ export class Player extends Entity {
     }
 
     private setGlowByFollowersAmount(): void {
-        this._glow!.alpha = 1 - (AnimalsManager.playerFollowersAmount / this._maxFollowers);
+        this._glow!.alpha = 1 - (EntitiesManager.playerFollowersAmount / this._maxFollowers);
     }
 
     private addGlow(): void {
@@ -47,38 +46,37 @@ export class Player extends Entity {
         this._rootContainer.addChild(this._view!);
     }
 
-    private searchAnimals(animals: Animal[]): void {
+    private searchEntities(entities: Entity[]): void {
 
-        if (AnimalsManager.playerFollowersAmount >= this._maxFollowers) {
+        if (EntitiesManager.playerFollowersAmount >= this._maxFollowers) {
             return;
         }
 
-        const animalsInRadius: Animal[] = this.getAnimalsInRadius(animals);
+        const entitiesInRadius: Entity[] = this.getEntitiesInRadius(entities)
+            .filter((entity: Entity) => !entity.isFollower && !entity.isCollected && entity.followAble);
 
-        if (!animalsInRadius.length) {
+        if (!entitiesInRadius.length) {
             return;
         }
 
-        animalsInRadius
-            .forEach((animal: Animal): void => animal.followPlayer(this));
+        entitiesInRadius
+            .forEach((entity: Entity): void => entity.followTarget(this));
     }
 
-    private getAnimalsInRadius(animals: Animal[]): Animal[] {
-        const response: Animal[] = [];
-        for (let i: number = 0; i < animals.length; i++) {
-            const animal: Animal = animals[i];
-            if(animal.isFollower || animal.isCollected) {
-                continue;
-            }
-            if (this.checkIsAnimalInCatchDistance(animal)) {
-                response.push(animal);
+    private getEntitiesInRadius(entities: Entity[]): Entity[] {
+        const response: Entity[] = [];
+        for (let i: number = 0; i < entities.length; i++) {
+            const entity: Entity = entities[i];
+
+            if (this.checkIsEntitiesInCatchDistance(entity)) {
+                response.push(entity);
             }
         }
         return response;
     }
 
-    private checkIsAnimalInCatchDistance(animal: Animal): boolean {
-        return Vector2.distance(animal.position, this.position) <= this._catchDistance;
+    private checkIsEntitiesInCatchDistance(entity: Entity): boolean {
+        return Vector2.distance(entity.position, this.position) <= this._catchDistance;
     }
 
     public get followPosition(): Vector2 {

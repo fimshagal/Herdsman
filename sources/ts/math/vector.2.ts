@@ -51,8 +51,8 @@ export class Vector2 {
     public randomiseWithinThreshold(threshold: number): Vector2 {
         const randomize = (value: number): number => value + Math.floor(Math.random() * (threshold * 2 + 1)) - threshold;
 
-        this._x = randomize(this.x);
-        this._y = randomize(this.y);
+        this._x = randomize(this._x);
+        this._y = randomize(this._y);
 
         return this;
     }

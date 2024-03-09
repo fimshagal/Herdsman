@@ -1,9 +1,9 @@
 import { CollectAreaInitConfig } from "./lib";
 import * as PIXI from "pixi.js";
 import { Nullable } from "../../misc";
-import { Animal } from "../entities";
+import {Animal, Entity, PoisonDemon} from "../entities";
 import { Vector2 } from "../../math";
-import { AnimalsManager, StatsManager } from "../managers";
+import { EntitiesManager, StatsManager } from "../managers";
 
 export class CollectArea {
     private _view: Nullable<PIXI.Sprite> = null;
@@ -30,38 +30,42 @@ export class CollectArea {
     }
 
     public update(deltaTime: number): void {
-        this.searchAnimals(AnimalsManager.animals);
+        this.searchEntities(EntitiesManager.allEntities);
     }
 
-    private searchAnimals(animals: Animal[]): void {
-        const animalsInRadius: Animal[] = this.getAnimalsInRadius(animals);
+    private searchEntities(entities: Entity[]): void {
+        const entitiesInRadius: Entity[] = this.getEntitiesInRadius(entities)
+            .filter((entity: Entity) => entity.isFollower && !entity.isCollected);
 
-        if (!animalsInRadius.length) {
+        if (!entitiesInRadius.length) {
             return;
         }
 
-        animalsInRadius.forEach(async (animal: Animal): Promise<void> => {
-            await animal.collect(this);
-            StatsManager.addScorePoints(animal.cost);
+        entitiesInRadius.forEach(async (entity: Entity): Promise<void> => {
+            await entity.collect(this);
+            if (entity instanceof Animal) {
+                StatsManager.addScorePoints(entity.cost);
+            }
+            if (entity instanceof PoisonDemon) {
+                StatsManager.removeLife();
+            }
         });
     }
 
-    private getAnimalsInRadius(animals: Animal[]): Animal[] {
-        const response: Animal[] = [];
-        for (let i: number = 0; i < animals.length; i++) {
-            const animal: Animal = animals[i];
-            if(animal.isCollected || !animal.isFollower) {
-                continue;
-            }
-            if (this.checkIsAnimalInCatchDistance(animal)) {
-                response.push(animal);
+
+    private getEntitiesInRadius(entities: Entity[]): Entity[] {
+        const response: Entity[] = [];
+        for (let i: number = 0; i < entities.length; i++) {
+            const entity: Entity = entities[i];
+            if (this.checkIsEntityInCatchDistance(entity)) {
+                response.push(entity);
             }
         }
         return response;
     }
 
-    private checkIsAnimalInCatchDistance(animal: Animal): boolean {
-        return Vector2.distance(animal.position, this.position) <= this._catchDistance;
+    private checkIsEntityInCatchDistance(entity: Entity): boolean {
+        return Vector2.distance(entity.position, this.position) <= this._catchDistance;
     }
 
     public get position(): Vector2 {

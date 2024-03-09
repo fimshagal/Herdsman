@@ -2,7 +2,7 @@ import { onDocReady } from "./misc";
 import { HerdsmanApp } from "./herdsman";
 import { HerdsmanAssets } from "./herdsman/core/herdsman.assets";
 import { Vector2, MinMax } from "./math";
-import { AnimalsManagerInitConfig } from "./herdsman/managers/animals.manager/lib";
+import { EntitiesManagerInitConfig } from "./herdsman/managers/entities.manager/lib";
 import { CollectAreaInitConfig } from "./herdsman/collect.area/lib";
 import { PlayerInitConfig } from "./herdsman/entities/lib";
 import * as PIXI from "pixi.js";
@@ -10,6 +10,7 @@ import WebFont from "webfontloader";
 import { HerdsmanAppConfig } from "./herdsman/core/lib";
 import { ScorePointsCounterInitConfig} from "./herdsman/ui/score.points.counter/lib";
 import {BackgroundInitConfig} from "./herdsman/background/lib";
+import { LivesCounterInitConfig } from "./herdsman/ui/lives.counter/lib";
 
 (async (): Promise<void> => {
 
@@ -27,17 +28,47 @@ import {BackgroundInitConfig} from "./herdsman/background/lib";
         catchDistance: 100,
         followPositionOffset: new Vector2(50, 50),
         maxFollowers: 5,
+        doPatrol: false,
+        respawnAble: false,
+        followAble: false,
     };
 
-    const animalsManagerInitConfig: AnimalsManagerInitConfig = {
-        poolSize: 20,
-        speed: 0.05,
-        autoSpawnRange: new MinMax(300, 666),
-        cost: 2,
-        textures: animalsTextures,
-        catchedTexture: HerdsmanAssets.AnimalCatchedTexture,
-        patrolDelayRange: new MinMax(1000, 5000),
-        patrolStepMaxDistance: 100,
+    const entitiesManagerInitConfig: EntitiesManagerInitConfig = {
+        poolInitData: {
+            animals: 15,
+            poisonDemons: 3,
+        },
+        animalInitConfig: {
+            speed: 0.05,
+            autoBorn: true,
+            initPosition: Vector2.zero,
+            texture: HerdsmanAssets.Animal0Texture,
+            textures: animalsTextures,
+            cost: 2,
+            beholdShift: new Vector2(10, 20),
+            catchedTexture: HerdsmanAssets.AnimalCatchedTexture,
+            followAble: true,
+            doPatrol: true,
+            patrolDelayRange: new MinMax(1e3, 5e3),
+            patrolStepMaxDistance: 100,
+            respawnAble: true,
+            respawnDelayRange: new MinMax(2e3, 3e3),
+        },
+        poisonDemonInitConfig: {
+            speed: 0.075,
+            autoBorn: true,
+            initPosition: Vector2.zero,
+            texture: HerdsmanAssets.PoisonDemonTexture,
+            cost: 0,
+            beholdShift: new Vector2(10, 20),
+            followAble: true,
+            doPatrol: true,
+            patrolDelayRange: new MinMax(500, 1e3),
+            patrolStepMaxDistance: 200,
+            respawnAble: true,
+            respawnDelayRange: new MinMax(1e4, 12e3),
+        },
+        initSpawnPositionRange: new MinMax(300, 666),
     };
 
     const collectAreaInitConfig: CollectAreaInitConfig = {
@@ -65,18 +96,25 @@ import {BackgroundInitConfig} from "./herdsman/background/lib";
         defaultText: "0"
     };
 
+    const livesCounterInitConfig: LivesCounterInitConfig = {
+        initPosition:  new Vector2(-335, -350),
+        texture: HerdsmanAssets.HeartTexture,
+    };
+
     const herdsmanAppConfig: HerdsmanAppConfig = {
         parentElement: document.querySelector('.application-wrapper'),
         playerInitConfig,
-        animalsManagerInitConfig,
+        entitiesManagerInitConfig,
         collectAreaInitConfig,
         scorePointsCounterInitConfig,
         backgroundInitConfig,
+        livesCounterInitConfig,
     };
 
     const onLoadFont = (): void => HerdsmanApp
         .getSingle()
         .init(herdsmanAppConfig);
+
 
     await onDocReady();
 

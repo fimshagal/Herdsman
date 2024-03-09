@@ -5,9 +5,12 @@ export class StatsManager {
     private static _singleInstance: StatsManager;
 
     private _scorePoints: number = 0;
+    private _lives: number = 5;
     private _playerPosition: Vector2 = Vector2.zero;
 
     public onUpdateScorePoints: Signal<number> = new Signal();
+    public onRemoveLife: Signal<number> = new Signal();
+    public onGameOver: Signal<void> = new Signal();
 
     constructor() {
         if (StatsManager._singleInstance) {
@@ -28,6 +31,12 @@ export class StatsManager {
             .addScorePoints(quantity);
     }
 
+    public static removeLife(): void {
+        StatsManager
+            .getSingle()
+            .removeLife();
+    }
+
     public static setPlayerPosition(position: Vector2): void {
         StatsManager
             .getSingle()
@@ -39,6 +48,14 @@ export class StatsManager {
         this.onUpdateScorePoints.emit(this._scorePoints);
     }
 
+    public removeLife(): void {
+        this._lives -= 1;
+        this.onRemoveLife.emit(this._lives);
+        if (this._lives === 0) {
+            this.onGameOver.emit();
+        }
+    }
+
     public setPlayerPosition(position: Vector2): void {
         this._playerPosition = position;
     }
@@ -47,11 +64,21 @@ export class StatsManager {
         return this._playerPosition;
     }
 
+    public get lives(): number {
+        return this._lives;
+    }
+
 
     public static get playerPosition(): Vector2 {
         return StatsManager
             .getSingle()
             .playerPosition;
+    }
+
+    public static get lives(): number {
+        return StatsManager
+            .getSingle()
+            .lives;
     }
 
 }

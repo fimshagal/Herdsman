@@ -42,7 +42,8 @@ Then enjoy ;)
 
 Click with your mouse on a group of cute entities to collect them.
 After getting five entities player should bring them into 
-***hungry'n'lazy cat-demon's area ^_^*** to earn some score points
+***hungry'n'lazy cat-demon's area ^_^*** to earn some score points. Also try to avoid black toxic entities 
+which can easily multiply your health by zero
 
 ## Deps
 

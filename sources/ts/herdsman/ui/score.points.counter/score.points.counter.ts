@@ -47,9 +47,11 @@ export class ScorePointsCounter {
         return this._view;
     }
 
-    public async update(value: any): Promise<void> {
+    public async update(value: number): Promise<void> {
         const bumpScaleSequence: number[] = this._bumpScaleSequence;
+
         this.updateText(value.toString());
+
         await new Promise<void>((resolve): void => {
             const onComplete = (): void => resolve();
 

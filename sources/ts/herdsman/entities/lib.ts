@@ -6,8 +6,17 @@ export interface EntityInitConfig {
     speed: number;
     initPosition: Vector2;
     texture: PIXI.Texture;
+    textures?: PIXI.Texture[],
+    followAble: boolean;
+    doPatrol: boolean;
+    respawnAble: boolean;
     autoBorn: boolean;
     cost?: number;
+    respawnDelayRange?: MinMax;
+    patrolDelayRange?: MinMax;
+    patrolStepMaxDistance?: number;
+    catchedTexture?: Nullable<PIXI.Texture>;
+    beholdShift?: Vector2,
 }
 
 export interface PlayerInitConfig extends EntityInitConfig {
@@ -17,9 +26,13 @@ export interface PlayerInitConfig extends EntityInitConfig {
 }
 
 export interface AnimalInitConfig extends EntityInitConfig {
-    catchedTexture: Nullable<PIXI.Texture>,
-    patrolDelayRange: MinMax,
-    patrolStepMaxDistance: number,
 }
 
-export type CommonEntityConfig = EntityInitConfig | PlayerInitConfig | AnimalInitConfig;
+export interface PoisonDemonInitConfig extends EntityInitConfig {
+}
+
+export interface IEntitiesTypes {
+    [key: string]: Symbol,
+}
+
+export type CommonEntityConfig = EntityInitConfig | PlayerInitConfig | AnimalInitConfig | PoisonDemonInitConfig;

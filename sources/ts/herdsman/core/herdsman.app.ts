@@ -4,11 +4,11 @@ import { HerdsmanAppConfig } from "./lib";
 import { ICanvas } from "pixi.js";
 import { Vector2 } from "../../math";
 import { Player } from "../entities";
-import { AnimalsManager, StatsManager } from "../managers";
+import { EntitiesManager, StatsManager } from "../managers";
 import { Background } from "../background";
 import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
-import { ScorePointsCounter } from "../ui";
+import {LivesCounter, ScorePointsCounter} from "../ui";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -23,10 +23,11 @@ export class HerdsmanApp {
     private _collectArea: CollectArea = new CollectArea();
     private _background: Background = new Background();
 
-    private _animalsManager: AnimalsManager = AnimalsManager.getSingle();
+    private _entitiesManager: EntitiesManager = EntitiesManager.getSingle();
     private _statsManager: StatsManager = StatsManager.getSingle();
 
     private _scorePointsCounter: ScorePointsCounter = new ScorePointsCounter();
+    private _livesCounter: LivesCounter = new LivesCounter();
 
     private _isPaused: boolean = false;
 
@@ -68,7 +69,7 @@ export class HerdsmanApp {
         TWEEN.update();
         this._collectArea.update(deltaTime);
         this._player.update(deltaTime);
-        this._animalsManager.update(deltaTime);
+        this._entitiesManager.update(deltaTime);
     }
 
     private listenInput(): void {
@@ -81,7 +82,7 @@ export class HerdsmanApp {
         view.addEventListener('click', this.handleOnClickView.bind(this) as EventListener);
     }
 
-    private followPlayer(): void {
+    private listenPlayer(): void {
         this._player.onReCalcPosition.add(this.handlePlayerReCalcPosition.bind(this));
     }
 
@@ -109,6 +110,9 @@ export class HerdsmanApp {
     }
 
     private listenStats(): void {
+        this._statsManager.onRemoveLife
+            .add(async (value: number): Promise<void> => this._livesCounter.update(value));
+
         this._statsManager.onUpdateScorePoints
             .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
     }
@@ -124,10 +128,11 @@ export class HerdsmanApp {
         const {
             parentElement,
             playerInitConfig,
-            animalsManagerInitConfig,
+            entitiesManagerInitConfig,
             collectAreaInitConfig,
             scorePointsCounterInitConfig,
             backgroundInitConfig,
+            livesCounterInitConfig,
         } = options;
 
         if (!parentElement) return;
@@ -135,16 +140,22 @@ export class HerdsmanApp {
         this._background.init(backgroundInitConfig);
         this._collectArea.init(collectAreaInitConfig);
         this._player.init(playerInitConfig);
-        this.followPlayer();
+
+        this.listenPlayer();
+
         this._statsManager.setPlayerPosition(this._player.position.clone());
-        this._animalsManager.init(animalsManagerInitConfig);
+        this._entitiesManager.init(entitiesManagerInitConfig);
 
         this._scorePointsCounter.init(scorePointsCounterInitConfig);
+        this._livesCounter.init(livesCounterInitConfig);
+        this._livesCounter.update(StatsManager.lives);
+
         this._uiContainer.addChild(this._scorePointsCounter.view!);
+        this._uiContainer.addChild(this._livesCounter.view!);
 
         this._rootContainer.addChild(this._background.view!);
         this._rootContainer.addChild(this._collectArea.view!);
-        this._rootContainer.addChild(this._animalsManager.view!);
+        this._rootContainer.addChild(this._entitiesManager.view!);
         this._rootContainer.addChild(this._player.view!);
 
         this.listenStats();
