@@ -2,8 +2,8 @@ import * as PIXI from "pixi.js";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Vector2 } from "../../../math";
 import { HurtScreenInitConfig } from "./lib";
-import { HerdsmanAssets } from "../../core/herdsman.assets";
-import {Nullable} from "../../../misc";
+import { HerdsmanAssets } from "../../core";
+import { Nullable } from "../../../misc";
 
 export class HurtScreen {
     private readonly _view: PIXI.Container = new PIXI.Container();

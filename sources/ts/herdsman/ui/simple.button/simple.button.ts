@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { Nullable } from "../../../misc";
 import { Signal } from "signal-ts";
-import {SimpleButtonInitConfig} from "./lib";
-import {Vector2} from "../../../math";
+import { SimpleButtonInitConfig } from "./lib";
+import { Vector2 } from "../../../math";
 
 export class SimpleButton {
     private readonly _view: PIXI.Container = new PIXI.Container();

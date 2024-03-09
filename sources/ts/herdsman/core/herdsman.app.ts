@@ -8,9 +8,7 @@ import { EntitiesManager, StatsManager } from "../managers";
 import { Background } from "../background";
 import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
-import {LivesCounter, LoseScreen, ScorePointsCounter} from "../ui";
-import {HurtScreen} from "../ui/hurt.screen";
-import {SimpleButton} from "../ui/simple.button";
+import { LivesCounter, LoseScreen, ScorePointsCounter, HurtScreen, SimpleButton } from "../ui";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;

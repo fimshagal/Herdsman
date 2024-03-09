@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Vector2 } from "../../../math";
 import { Nullable } from "../../../misc";
-import {LivesCounterInitConfig} from "./lib";
+import { LivesCounterInitConfig } from "./lib";
 
 export class LivesCounter {
     private readonly _view: PIXI.Container = new PIXI.Container();

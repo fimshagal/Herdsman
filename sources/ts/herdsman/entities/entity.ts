@@ -2,11 +2,10 @@ import {MinMax, Vector2} from "../../math";
 import {delay, Nullable} from "../../misc";
 import * as PIXI from "pixi.js";
 import { CommonEntityConfig } from "./lib";
-import {Signal} from "signal-ts";
-import {AppSize} from "../core/app.size";
-import {HerdsmanApp} from "../core/herdsman.app";
-import {Player} from "./player";
-import {CollectArea} from "../collect.area";
+import { Signal } from "signal-ts";
+import { HerdsmanApp, AppSize } from "../core";
+import { Player } from "./";
+import { CollectArea } from "../collect.area";
 import * as TWEEN from "@tweenjs/tween.js";
 import {StatsManager} from "../managers";
 

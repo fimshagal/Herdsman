@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Vector2 } from "../../../math";
 import { LoseScreenInitConfig } from "./lib";
-import { HerdsmanAssets } from "../../core/herdsman.assets";
+import { HerdsmanAssets } from "../../core";
 import {Nullable} from "../../../misc";
 import {SimpleButtonInitConfig} from "../simple.button/lib";
 import {SimpleButton} from "../simple.button";

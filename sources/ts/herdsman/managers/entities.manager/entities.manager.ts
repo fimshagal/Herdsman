@@ -10,14 +10,11 @@ import {
     EntityInitConfig,
     PoisonDemonInitConfig
 } from "../../entities/lib";
-import {Animal, Entity, PoisonDemon} from "../../entities";
-import { MinMax, Vector2 } from "../../../math";
-import { Nullable } from "../../../misc";
+import { Animal, Entity, PoisonDemon } from "../../entities";
+import { MinMax, getRandomXYInRange } from "../../../math";
+import { Nullable, getRandomArrayItem } from "../../../misc";
 import * as PIXI from "pixi.js";
-import { HerdsmanApp } from "../../core/herdsman.app";
-import {getRandomArrayItem} from "../../../misc/get.random.array.item";
-import {getRandomXYInRange} from "../../../math/random.xy.in.radius";
-import {AppSize} from "../../core/app.size";
+import { HerdsmanApp, AppSize } from "../../core";
 
 export class EntitiesManager {
     private static _singleInstance: EntitiesManager;

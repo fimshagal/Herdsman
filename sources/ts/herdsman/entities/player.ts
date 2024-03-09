@@ -3,7 +3,7 @@ import { EntitiesManager } from "../managers";
 import { CommonEntityConfig, PlayerInitConfig } from "./lib";
 import { Vector2 } from "../../math";
 import * as PIXI from "pixi.js";
-import { HerdsmanAssets } from "../core/herdsman.assets";
+import { HerdsmanAssets } from "../core";
 import { Nullable } from "../../misc";
 
 export class Player extends Entity {
