@@ -121,7 +121,7 @@ export class EntitiesManager {
             initPosition: getRandomXYInRange(new MinMax(appSize.halfWidth, appSize.halfWidth)),
         } as CommonEntityConfig;
 
-        let sourceConfig;
+        let sourceConfig: any;
 
         switch (type) {
             case "animals":
@@ -129,30 +129,23 @@ export class EntitiesManager {
                 response.texture = getRandomArrayItem(sourceConfig.textures!);
                 response.textures = sourceConfig.textures;
                 response.catchedTexture = sourceConfig.catchedTexture;
-                response.cost = sourceConfig.cost;
-                response.speed = sourceConfig.speed;
-                response.followAble = sourceConfig.followAble;
-                response.beholdShift = sourceConfig.beholdShift?.clone().randomiseWithinThreshold(20);
-                response.doPatrol = sourceConfig.doPatrol;
-                response.patrolDelayRange = sourceConfig.patrolDelayRange;
-                response.patrolStepMaxDistance = sourceConfig.patrolStepMaxDistance;
-                response.respawnDelayRange = sourceConfig.respawnDelayRange;
                 break;
             case "poisonDemons":
                 sourceConfig = this._poisonDemonInitConfig;
                 response.texture = sourceConfig.texture;
-                response.cost = sourceConfig.cost;
-                response.speed = sourceConfig.speed;
-                response.followAble = sourceConfig.followAble;
-                response.beholdShift = sourceConfig.beholdShift?.clone().randomiseWithinThreshold(20);
-                response.doPatrol = sourceConfig.doPatrol;
-                response.patrolDelayRange = sourceConfig.patrolDelayRange;
-                response.patrolStepMaxDistance = sourceConfig.patrolStepMaxDistance;
-                response.respawnDelayRange = sourceConfig.respawnDelayRange;
                 break;
             default:
                 break;
         }
+
+        response.cost = sourceConfig.cost;
+        response.speed = sourceConfig.speed;
+        response.followAble = sourceConfig.followAble;
+        response.beholdShift = sourceConfig.beholdShift?.clone().randomiseWithinThreshold(20);
+        response.doPatrol = sourceConfig.doPatrol;
+        response.patrolDelayRange = sourceConfig.patrolDelayRange;
+        response.patrolStepMaxDistance = sourceConfig.patrolStepMaxDistance;
+        response.respawnDelayRange = sourceConfig.respawnDelayRange;
 
         return response;
     }
