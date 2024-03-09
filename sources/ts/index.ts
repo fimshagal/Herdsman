@@ -12,6 +12,7 @@ import { ScorePointsCounterInitConfig} from "./herdsman/ui/score.points.counter/
 import {BackgroundInitConfig} from "./herdsman/background/lib";
 import { LivesCounterInitConfig } from "./herdsman/ui/lives.counter/lib";
 import {LoseScreenInitConfig} from "./herdsman/ui/lose.screen/lib";
+import {HurtScreenInitConfig} from "./herdsman/ui/hurt.screen/lib";
 
 (async (): Promise<void> => {
 
@@ -64,12 +65,12 @@ import {LoseScreenInitConfig} from "./herdsman/ui/lose.screen/lib";
             beholdShift: new Vector2(10, 20),
             followAble: true,
             doPatrol: true,
-            patrolDelayRange: new MinMax(500, 1e3),
+            catchedTexture: HerdsmanAssets.PoisonDemonCatchedTexture,
+            patrolDelayRange: new MinMax(250, 750),
             patrolStepMaxDistance: 200,
             respawnAble: true,
             respawnDelayRange: new MinMax(1e4, 12e3),
-        },
-        initSpawnPositionRange: new MinMax(300, 666),
+        }
     };
 
     const collectAreaInitConfig: CollectAreaInitConfig = {
@@ -105,7 +106,10 @@ import {LoseScreenInitConfig} from "./herdsman/ui/lose.screen/lib";
 
     const loseScreenInitConfig: LoseScreenInitConfig = {
         initPosition: Vector2.zero,
+    };
 
+    const hurtScreenInitConfig: HurtScreenInitConfig = {
+        initPosition: Vector2.zero,
     };
 
     const herdsmanAppConfig: HerdsmanAppConfig = {
@@ -116,7 +120,8 @@ import {LoseScreenInitConfig} from "./herdsman/ui/lose.screen/lib";
         scorePointsCounterInitConfig,
         backgroundInitConfig,
         livesCounterInitConfig,
-        loseScreenInitConfig
+        loseScreenInitConfig,
+        hurtScreenInitConfig,
     };
 
     const onLoadFont = (): void => HerdsmanApp

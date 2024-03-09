@@ -8,6 +8,7 @@ import { ScorePointsCounterInitConfig } from "../ui/score.points.counter/lib";
 import { BackgroundInitConfig } from "../background/lib";
 import { LivesCounterInitConfig } from "../ui/lives.counter/lib";
 import { LoseScreenInitConfig } from "../ui/lose.screen/lib";
+import { HurtScreenInitConfig } from "../ui/hurt.screen/lib";
 
 export interface HerdsmanAppConfig {
     parentElement: Nullable<HTMLElement>,
@@ -18,6 +19,7 @@ export interface HerdsmanAppConfig {
     backgroundInitConfig: BackgroundInitConfig,
     livesCounterInitConfig: LivesCounterInitConfig,
     loseScreenInitConfig: LoseScreenInitConfig,
+    hurtScreenInitConfig: HurtScreenInitConfig,
 }
 
 export interface IHerdsmanAssets {

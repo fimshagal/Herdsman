@@ -1,5 +1,3 @@
-import { Vector2 } from "../../../math";
+import { BaseInitConfig } from "../../../init.config/lib";
 
-export interface LoseScreenInitConfig {
-    initPosition: Vector2,
-}
+export interface LoseScreenInitConfig extends BaseInitConfig{ }

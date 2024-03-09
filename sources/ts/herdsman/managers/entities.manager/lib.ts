@@ -6,7 +6,6 @@ export interface EntitiesManagerInitConfig {
     animalInitConfig: AnimalInitConfig;
     poisonDemonInitConfig: PoisonDemonInitConfig;
     poolInitData: IEntitiesManagerPoolInitConfig;
-    initSpawnPositionRange: MinMax,
 }
 
 export interface IEntitiesManagerCollection {

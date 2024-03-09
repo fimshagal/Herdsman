@@ -17,6 +17,7 @@ import * as PIXI from "pixi.js";
 import { HerdsmanApp } from "../../core/herdsman.app";
 import {getRandomArrayItem} from "../../../misc/get.random.array.item";
 import {getRandomXYInRange} from "../../../math/random.xy.in.radius";
+import {AppSize} from "../../core/app.size";
 
 export class EntitiesManager {
     private static _singleInstance: EntitiesManager;
@@ -35,8 +36,6 @@ export class EntitiesManager {
 
     private _animalInitConfig: AnimalInitConfig = {} as AnimalInitConfig;
     private _poisonDemonInitConfig: PoisonDemonInitConfig = {} as PoisonDemonInitConfig;
-
-    private _initSpawnPositionRange: MinMax = MinMax.zero;
 
     private _playerFollowersAmount: number = 0;
 
@@ -91,7 +90,6 @@ export class EntitiesManager {
     }
 
     private applyInitConfig(initConfig: EntitiesManagerInitConfig): void {
-        this._initSpawnPositionRange = initConfig.initSpawnPositionRange;
         this._poolInitData = initConfig.poolInitData;
         this._animalInitConfig = initConfig.animalInitConfig;
         this._poisonDemonInitConfig = initConfig.poisonDemonInitConfig;
@@ -114,7 +112,7 @@ export class EntitiesManager {
     }
 
     private generateRandomInitConfig(type: EntitiesTypes): CommonEntityConfig {
-        const appSize = HerdsmanApp.appSize;
+        const appSize: AppSize = HerdsmanApp.appSize;
         const response: CommonEntityConfig = {
             autoBorn: true,
             respawnAble: true,
@@ -128,7 +126,6 @@ export class EntitiesManager {
                 sourceConfig = this._animalInitConfig;
                 response.texture = getRandomArrayItem(sourceConfig.textures!);
                 response.textures = sourceConfig.textures;
-                response.catchedTexture = sourceConfig.catchedTexture;
                 break;
             case "poisonDemons":
                 sourceConfig = this._poisonDemonInitConfig;
@@ -138,6 +135,7 @@ export class EntitiesManager {
                 break;
         }
 
+        response.catchedTexture = sourceConfig.catchedTexture;
         response.cost = sourceConfig.cost;
         response.speed = sourceConfig.speed;
         response.followAble = sourceConfig.followAble;

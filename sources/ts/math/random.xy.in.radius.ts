@@ -1,5 +1,5 @@
-import {MinMax} from "./min.max";
-import {Vector2} from "./vector.2";
+import { MinMax } from "./min.max";
+import { Vector2 } from "./vector.2";
 
 export const getRandomXYInRange = (range: MinMax): Vector2 => {
     const theta: number = Math.random() * 2 * Math.PI;

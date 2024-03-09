@@ -5,10 +5,12 @@ import Animal0Texture from "../../../textures/animal-0.png";
 import Animal1Texture from "../../../textures/animal-1.png";
 import Animal2Texture from "../../../textures/animal-2.png";
 import PoisonDemonTexture from "../../../textures/poison-demon.png";
+import PoisonDemonCatchedTexture from "../../../textures/poison-demon-catched.png";
 import AnimalCatchedTexture from "../../../textures/animal-catched.png";
 import PlayerGlowTexture from "../../../textures/player-glow.png";
 import HeartTexture from "../../../textures/heart.png";
 import LoseBackgroundTexture from "../../../textures/lose-background.jpg";
+import HurtBackgroundTexture from "../../../textures/damage-overlay.png";
 import * as PIXI from "PIXI.js";
 import { IHerdsmanAssets } from "./lib";
 
@@ -24,6 +26,8 @@ export const HerdsmanAssets: IHerdsmanAssets = {
     AnimalCatchedTexture: createTexture(AnimalCatchedTexture),
     PlayerGlowTexture: createTexture(PlayerGlowTexture),
     PoisonDemonTexture: createTexture(PoisonDemonTexture),
+    PoisonDemonCatchedTexture: createTexture(PoisonDemonCatchedTexture),
     HeartTexture: createTexture(HeartTexture),
     LoseBackgroundTexture: createTexture(LoseBackgroundTexture),
+    HurtBackgroundTexture: createTexture(HurtBackgroundTexture),
 };

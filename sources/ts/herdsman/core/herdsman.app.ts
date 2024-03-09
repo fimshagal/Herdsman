@@ -9,6 +9,7 @@ import { Background } from "../background";
 import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
 import {LivesCounter, LoseScreen, ScorePointsCounter} from "../ui";
+import {HurtScreen} from "../ui/hurt.screen";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -29,6 +30,7 @@ export class HerdsmanApp {
     private _scorePointsCounter: ScorePointsCounter = new ScorePointsCounter();
     private _livesCounter: LivesCounter = new LivesCounter();
     private _loseScreen: LoseScreen = new LoseScreen();
+    private _hurtScreen: HurtScreen = new HurtScreen();
 
     private _isPaused: boolean = false;
 
@@ -112,7 +114,10 @@ export class HerdsmanApp {
 
     private listenStats(): void {
         this._statsManager.onRemoveLife
-            .add(async (value: number): Promise<void> => this._livesCounter.update(value));
+            .add(async (value: number): Promise<void> => {
+                this._hurtScreen.show();
+                this._livesCounter.update(value);
+            });
 
         this._statsManager.onUpdateScorePoints
             .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
@@ -142,7 +147,8 @@ export class HerdsmanApp {
             scorePointsCounterInitConfig,
             backgroundInitConfig,
             livesCounterInitConfig,
-            loseScreenInitConfig
+            loseScreenInitConfig,
+            hurtScreenInitConfig,
         } = options;
 
         if (!parentElement) return;
@@ -160,8 +166,10 @@ export class HerdsmanApp {
         this._livesCounter.init(livesCounterInitConfig);
         this._livesCounter.update(StatsManager.lives);
 
-        this._loseScreen.init(loseScreenInitConfig)
+        this._loseScreen.init(loseScreenInitConfig);
+        this._hurtScreen.init(hurtScreenInitConfig);
 
+        this._uiContainer.addChild(this._hurtScreen.view!);
         this._uiContainer.addChild(this._scorePointsCounter.view!);
         this._uiContainer.addChild(this._livesCounter.view!);
         this._uiContainer.addChild(this._loseScreen.view!);
