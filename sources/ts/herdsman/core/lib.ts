@@ -7,6 +7,7 @@ import { CollectAreaInitConfig } from "../collect.area/lib";
 import { ScorePointsCounterInitConfig } from "../ui/score.points.counter/lib";
 import { BackgroundInitConfig } from "../background/lib";
 import { LivesCounterInitConfig } from "../ui/lives.counter/lib";
+import { LoseScreenInitConfig } from "../ui/lose.screen/lib";
 
 export interface HerdsmanAppConfig {
     parentElement: Nullable<HTMLElement>,
@@ -16,6 +17,7 @@ export interface HerdsmanAppConfig {
     scorePointsCounterInitConfig: ScorePointsCounterInitConfig,
     backgroundInitConfig: BackgroundInitConfig,
     livesCounterInitConfig: LivesCounterInitConfig,
+    loseScreenInitConfig: LoseScreenInitConfig,
 }
 
 export interface IHerdsmanAssets {

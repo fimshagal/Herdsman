@@ -11,6 +11,7 @@ import { HerdsmanAppConfig } from "./herdsman/core/lib";
 import { ScorePointsCounterInitConfig} from "./herdsman/ui/score.points.counter/lib";
 import {BackgroundInitConfig} from "./herdsman/background/lib";
 import { LivesCounterInitConfig } from "./herdsman/ui/lives.counter/lib";
+import {LoseScreenInitConfig} from "./herdsman/ui/lose.screen/lib";
 
 (async (): Promise<void> => {
 
@@ -99,6 +100,12 @@ import { LivesCounterInitConfig } from "./herdsman/ui/lives.counter/lib";
     const livesCounterInitConfig: LivesCounterInitConfig = {
         initPosition:  new Vector2(-335, -350),
         texture: HerdsmanAssets.HeartTexture,
+        offset: 75,
+    };
+
+    const loseScreenInitConfig: LoseScreenInitConfig = {
+        initPosition: Vector2.zero,
+
     };
 
     const herdsmanAppConfig: HerdsmanAppConfig = {
@@ -109,6 +116,7 @@ import { LivesCounterInitConfig } from "./herdsman/ui/lives.counter/lib";
         scorePointsCounterInitConfig,
         backgroundInitConfig,
         livesCounterInitConfig,
+        loseScreenInitConfig
     };
 
     const onLoadFont = (): void => HerdsmanApp

@@ -9,9 +9,11 @@ export class LivesCounter {
     private _position: Vector2 = Vector2.zero;
     private _texture: Nullable<PIXI.Texture> = null;
     private _value: number = 0;
+    private _offset: number = 80;
 
     public init(config: LivesCounterInitConfig): void {
         this._texture = config.texture;
+        this._offset = config.offset;
         this.setPosition(config.initPosition.clone());
     }
 
@@ -29,7 +31,7 @@ export class LivesCounter {
             sprite.x = x;
             sprite.anchor.set(0.5);
             this._view.addChild(sprite);
-            x += sprite.width;
+            x += this._offset;
         }
     }
 

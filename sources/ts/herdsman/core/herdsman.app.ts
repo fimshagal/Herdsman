@@ -8,7 +8,7 @@ import { EntitiesManager, StatsManager } from "../managers";
 import { Background } from "../background";
 import { CollectArea } from "../collect.area";
 import { AppSize } from "./app.size";
-import {LivesCounter, ScorePointsCounter} from "../ui";
+import {LivesCounter, LoseScreen, ScorePointsCounter} from "../ui";
 
 export class HerdsmanApp {
     private static _singleInstance: HerdsmanApp;
@@ -28,6 +28,7 @@ export class HerdsmanApp {
 
     private _scorePointsCounter: ScorePointsCounter = new ScorePointsCounter();
     private _livesCounter: LivesCounter = new LivesCounter();
+    private _loseScreen: LoseScreen = new LoseScreen();
 
     private _isPaused: boolean = false;
 
@@ -115,6 +116,13 @@ export class HerdsmanApp {
 
         this._statsManager.onUpdateScorePoints
             .add(async (value: number): Promise<void> => await this._scorePointsCounter.update(value));
+
+        this._statsManager.onGameOver
+            .add(this.handleGameOver.bind(this));
+    }
+
+    private handleGameOver(): void {
+        this._loseScreen.show();
     }
 
     public static getSingle(): HerdsmanApp  {
@@ -133,6 +141,7 @@ export class HerdsmanApp {
             scorePointsCounterInitConfig,
             backgroundInitConfig,
             livesCounterInitConfig,
+            loseScreenInitConfig
         } = options;
 
         if (!parentElement) return;
@@ -150,8 +159,11 @@ export class HerdsmanApp {
         this._livesCounter.init(livesCounterInitConfig);
         this._livesCounter.update(StatsManager.lives);
 
+        this._loseScreen.init(loseScreenInitConfig)
+
         this._uiContainer.addChild(this._scorePointsCounter.view!);
         this._uiContainer.addChild(this._livesCounter.view!);
+        this._uiContainer.addChild(this._loseScreen.view!);
 
         this._rootContainer.addChild(this._background.view!);
         this._rootContainer.addChild(this._collectArea.view!);
