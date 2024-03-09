@@ -15,8 +15,8 @@ export class Vector2 {
     }
 
     public static distance(vectorA: Vector2, vectorB: Vector2): number {
-        const xDiff = vectorB.x - vectorA.x;
-        const yDiff = vectorB.y - vectorA.y;
+        const xDiff: number = vectorB.x - vectorA.x;
+        const yDiff: number = vectorB.y - vectorA.y;
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
 

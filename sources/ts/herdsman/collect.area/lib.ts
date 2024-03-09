@@ -1,8 +1,7 @@
 import { Texture } from "pixi.js";
-import { Vector2 } from "../../math";
+import { BaseInitConfig } from "../../init.config/lib";
 
-export interface CollectAreaInitConfig {
+export interface CollectAreaInitConfig extends BaseInitConfig {
     texture: Texture,
-    initPosition: Vector2,
     catchDistance: number
 }

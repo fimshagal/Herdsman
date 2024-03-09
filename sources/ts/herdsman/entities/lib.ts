@@ -1,10 +1,10 @@
 import {MinMax, Vector2} from "../../math";
 import * as PIXI from "pixi.js";
 import {Nullable} from "../../misc";
+import {BaseInitConfig} from "../../init.config/lib";
 
-export interface EntityInitConfig {
+export interface EntityInitConfig extends BaseInitConfig {
     speed: number;
-    initPosition: Vector2;
     texture: PIXI.Texture;
     textures?: PIXI.Texture[],
     followAble: boolean;
@@ -29,10 +29,6 @@ export interface AnimalInitConfig extends EntityInitConfig {
 }
 
 export interface PoisonDemonInitConfig extends EntityInitConfig {
-}
-
-export interface IEntitiesTypes {
-    [key: string]: Symbol,
 }
 
 export type CommonEntityConfig = EntityInitConfig | PlayerInitConfig | AnimalInitConfig | PoisonDemonInitConfig;

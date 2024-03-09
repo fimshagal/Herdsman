@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js";
-import { Vector2 } from "../../math";
+import { BaseInitConfig } from "../../init.config/lib";
 
-export interface BackgroundInitConfig {
+export interface BackgroundInitConfig extends BaseInitConfig {
     texture: PIXI.Texture,
-    initPosition: Vector2,
 }

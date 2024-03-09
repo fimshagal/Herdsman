@@ -1,8 +1,7 @@
-import { Vector2 } from "../../../math";
 import * as PIXI from "pixi.js";
+import {BaseInitConfig} from "../../../init.config/lib";
 
-export interface LivesCounterInitConfig {
-    initPosition: Vector2,
+export interface LivesCounterInitConfig extends BaseInitConfig {
     texture: PIXI.Texture,
     offset: number;
 }
